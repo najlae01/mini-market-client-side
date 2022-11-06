@@ -10,7 +10,7 @@ const Auth = () => {
     const loading = useSelector((state)=>state.authReducer.loading)
     const [isSignUp, setIsSignUp] = useState(true)
     console.log(loading)
-    const [data, setData] = useState({password:"", confirmpass: "", username:""})
+    const [data, setData] = useState({password:"", confirmpass: "", username:"", role:""})
 
     const [confirmpass, setConfirmpass] = useState(false)
 
@@ -32,7 +32,7 @@ const Auth = () => {
 
     const resetForm = () => {
         setConfirmpass(true)
-        setData({password:"", confirmpass: "", username:""})
+        setData({password:"", confirmpass: "", username:"", role:""})
     }
 
     return (
@@ -41,26 +41,14 @@ const Auth = () => {
             <div className="a-left">
                 <img src={Logo} alt="" />
                 <div className="webName">
-                    <h1>Media</h1>
-                    <h6>Explore Ideas Thoughout The World</h6>
+                    <h1>MyShop</h1>
+                    <h6>Find the best products for the cheapest prices.</h6>
                 </div>
             </div>
             {/* Right Side */}
             <div className="a-right">
             <form className="infoForm authForm" onSubmit={handleSubmit}>
                 <h3>{isSignUp ? "Sign Up": "Log in"}</h3>
-                {/*{isSignUp && 
-                <div>
-                <input type="text" placeholder="First Name"
-                 className="infoInput" name="firstname"
-                 onChange={handleChange}
-                 value = {data.firstname}/>
-                <input type="text" placeholder="Last Name"
-                 className="infoInput" name="lastname"
-                 onChange={handleChange}
-                 value = {data.lastname}/>
-                </div>
-                }*/}
             
                 <div>
                     <input type="text" placeholder="Username"
@@ -80,7 +68,18 @@ const Auth = () => {
                  value = {data.confirmpass}/>
                 }
                 </div>
-
+                {isSignUp && 
+                <div>
+                <select name="role" id="role"
+                 className="infoInput"
+                 value={data.role}
+                 onChange={handleChange}>
+                 <option value= "Client">Buyer</option>
+                 <option value= "Fournisseur">Vendor</option>
+                 <option value= "Societe">Company</option>
+                 </select>
+                </div>
+                }
                 <span style={{display: confirmpass? "none": "block", color: "red", fontSize: "12px",
                  alignSelf: "flex-end", marginRight: "5px"}}>*Password doesn't match</span>
 
