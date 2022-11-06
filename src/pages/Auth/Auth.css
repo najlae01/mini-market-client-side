@@ -12,6 +12,14 @@
     align-items: center;
     justify-content: center;
 }
+.blur{
+    position: absolute;
+    width: 22rem;
+    height: 14rem;
+    border-radius: 50%;
+    background-color: #a6ddf0;
+    filter: blur(72px);
+  }
 
 .a-left{
     gap: 2rem;
@@ -56,6 +64,7 @@
 }
 
 .infoForm>div{
+    margin-bottom: 0.5rem;
     display: flex;
     gap: 1rem;
     height: 2rem;
