@@ -10,13 +10,13 @@ const authReducer = (state = {
             case "AUTH_SUCCESS":
                 return {...state, userInfo: action.data, loading: false, error: false};
             case "AUTH_FAIL":
-                return {...state, loading: false, error: true};
+                return {...state, loading: false, error: action.data};
             case "UPDATING_START":
                 return { ...state, updateLoading: true, error: false}
             case "UPDATING_SUCCESS":
                 return { ...state, userInfo: action.data, updateLoading: false, error: false}
             case "UPDATING_FAIL":
-                return { ...state, updateLoading: false, error: true}
+                return { ...state, updateLoading: false, error: action.data}
             case "LOG_OUT":
                 return {...state, userInfo: null, loading: false, error: false}
             default:

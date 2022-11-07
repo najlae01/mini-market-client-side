@@ -4,10 +4,12 @@ import Logo from '../../img/logo.png';
 import './Auth.css';
 import {useDispatch, useSelector} from 'react-redux';
 import { logIn, signUp } from "../../actions/AuthAction";
+import Message from "../../components/Message/Message";
+import Loader from "../../components/Loader/Loader";
 
 const Auth = () => {
     const dispatch = useDispatch()
-    const loading = useSelector((state)=>state.authReducer.loading)
+    const {error, loading} = useSelector((state)=>state.authReducer)
     const [isSignUp, setIsSignUp] = useState(true)
     console.log(loading)
     const [data, setData] = useState({password:"", confirmpass: "", username:"", role:""})
@@ -50,6 +52,8 @@ const Auth = () => {
             </div>
             {/* Right Side */}
             <div className="a-right">
+                {error && <Message variant='danger'>{error}</Message>}
+                {loading && <Loader/>}
             <form className="infoForm authForm" onSubmit={handleSubmit}>
                 <h3>{isSignUp ? "Sign Up": "Log in"}</h3>
             
