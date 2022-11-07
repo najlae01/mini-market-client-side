@@ -14,7 +14,7 @@ const Auth = () => {
     console.log(loading)
     const [data, setData] = useState({password:"", confirmpass: "", username:"", role:""})
 
-    const [confirmpass, setConfirmpass] = useState(false)
+    const [message, setMessage] = useState(null)
 
     const handleChange = (e) => {
         setData({...data, [e.target.name]: e.target.value})
@@ -25,7 +25,7 @@ const Auth = () => {
         if(isSignUp){
             data.password === data.confirmpass 
             ? dispatch(signUp(data)) 
-            : setConfirmpass(false)
+            : setMessage("Passwords do not match")
         }else
         {
             dispatch(logIn(data))
@@ -33,7 +33,7 @@ const Auth = () => {
     }
 
     const resetForm = () => {
-        setConfirmpass(true)
+        setMessage(null)
         setData({password:"", confirmpass: "", username:"", role:""})
     }
 
@@ -87,8 +87,7 @@ const Auth = () => {
                  </select>
                 </div>
                 }
-                <span style={{display: confirmpass? "none": "block", color: "red", fontSize: "12px",
-                 alignSelf: "flex-end", marginRight: "5px"}}>*Password doesn't match</span>
+                {message && <Message variant='danger'>{message}</Message>}
 
                 <div>
                     <span style={{fontSize: "12px", cursor: "pointer"}} onClick = {()=> {setIsSignUp((prev)=> !prev); resetForm()}}>
