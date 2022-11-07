@@ -8,7 +8,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import Cart from "./pages/Cart/Cart";
 
 function App() {
-  const user = useSelector((state) => state.authReducer.authData)
+  const user = useSelector((state) => state.authReducer.userInfo)
   return (
     <Container fluid style={{marginLeft: 0, marginRight: 0, padding: 0}}>
 

@@ -12,43 +12,21 @@ const cartItemsFromStorage = localStorage.getItem('cartItems')
                             ? JSON.parse(localStorage.getItem('cartItems'))
                             : []
 
-const profileFromStorage = localStorage.getItem('profile')
-                            ? JSON.parse(localStorage.getItem('profile'))
-                            : []
+const userInfoFromStorage = localStorage.getItem('userInfo')
+                            ? JSON.parse(localStorage.getItem('userInfo'))
+                            : null
 
 
 
 const middleware = [thunk]
 
-function saveToLocalStorage(store){
-    try {
-        const serializedStore = JSON.stringify(store);
-        window.localStorage.setItem('store', serializedStore)
-    } catch (error) {
-        console.log(error)
-    }
-}
-
-function loadFromLocalStorage(){
-    try {
-        const serializedStore = window.localStorage.getItem('store')
-        if(serializedStore === null) return undefined;
-        return JSON.parse(serializedStore )
-    } catch (error) {
-        console.log(error)
-        return undefined;
-    }
-}
-
-//const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSIONS_COMPOSE__ || compose;
-const persistedState = loadFromLocalStorage();
 
 const initialState = {
     cartReducer : {cartItems: cartItemsFromStorage},
-    authReducer: persistedState
+    authReducer : {userInfo : userInfoFromStorage} 
 }
 const store = createStore(reducers, initialState, composeWithDevTools(applyMiddleware(...middleware)))
 
-store.subscribe(() => saveToLocalStorage(store.getState()));
+//store.subscribe(() => saveToLocalStorage(store.getState()));
 
 export default store;
