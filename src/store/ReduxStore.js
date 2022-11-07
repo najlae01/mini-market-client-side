@@ -3,8 +3,22 @@ import {
     applyMiddleware,
     compose
 } from 'redux'
+import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from "redux-thunk"
 import {reducers} from "../reducers"
+
+
+const cartItemsFromStorage = localStorage.getItem('cartItems')
+                            ? JSON.parse(localStorage.getItem('cartItems'))
+                            : []
+
+const profileFromStorage = localStorage.getItem('profile')
+                            ? JSON.parse(localStorage.getItem('profile'))
+                            : []
+
+
+
+const middleware = [thunk]
 
 function saveToLocalStorage(store){
     try {
@@ -26,10 +40,14 @@ function loadFromLocalStorage(){
     }
 }
 
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSIONS_COMPOSE__ || compose;
+//const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSIONS_COMPOSE__ || compose;
 const persistedState = loadFromLocalStorage();
 
-const store = createStore(reducers, persistedState, composeEnhancers(applyMiddleware(thunk)))
+const initialState = {
+    cartReducer : {cartItems: cartItemsFromStorage},
+    authReducer: persistedState
+}
+const store = createStore(reducers, initialState, composeWithDevTools(applyMiddleware(...middleware)))
 
 store.subscribe(() => saveToLocalStorage(store.getState()));
 

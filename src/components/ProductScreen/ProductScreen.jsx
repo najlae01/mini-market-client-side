@@ -1,37 +1,37 @@
 import React from 'react'
-import { Row, Col, Image, listGroup, Card, Button, ListGroup } from 'react-bootstrap'
-import { useParams } from 'react-router-dom'
+import { Row, Col, Image, listGroup, Card, Button, ListGroup, Form } from 'react-bootstrap'
+import { useParams, useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import { useState, useEffect } from 'react'
-import axios from 'axios'
+import { useDispatch, useSelector } from "react-redux";
+import {getArticle} from '../../actions/ArticleAction'
+import Loader from '../Loader/Loader'
+import Message from '../Message/Message'
 
 const ProductScreen = () => {
-    const staticFolder = 'http://localhost:3000/'
+
+    const [quantiy, setQuantity] = useState(1)
+    const dispatch = useDispatch()
     const {id} = useParams()
-    const [product, setProduct] = useState([])
-    const [loading, setLoading] = useState()
+    const navigate = useNavigate()
+    let {product, loading, error} = useSelector((state)=> state.getArticleReducer)
     useEffect(() => {
-        const fetchData = async () =>{
-          setLoading(true);
-          try {
-            const {data: response} = await axios.get(`http://localhost:8080/get/article/${id}`);
-            setProduct(response);
-          } catch (error) {
-            console.error(error.message);
-          }
-          setLoading(false);
-        }
-    
-        fetchData();
+        dispatch(getArticle(id))
       }, []);
+
+    const addToCartHandler = () => {
+        navigate(`/cart/${id}?qty=${quantiy}`)
+    }
   return (
     <>
     <Link className='btn btn-light my-3' to='/'>
         Go Back
     </Link>
-    <Row>
+    {loading ? <Loader/> : error ? <Message variant= 'danger'>{error}</Message>
+    : (
+        <Row>
         <Col md={6}>
-            <Image src={staticFolder+product.imageArticle} alt={product.nomArticle} fluid
+            <Image src={product.imageArticle} alt={product.nomArticle} fluid
             style={
                 {width: '30rem',
                 height: '30rem'}
@@ -70,9 +70,31 @@ const ProductScreen = () => {
                             </Col>
                         </Row>
                     </ListGroup.Item>
+
+                        {product.quantite_stock > 0 &&(
+                            <ListGroup.Item>
+                                <Row>
+                                    <Col>Quantity</Col>
+                                    <Col>
+                                        <Form.Control as='select' value = {quantiy} onChange={(e) =>
+                                        setQuantity(e.target.value)
+                                        }>
+                                            {
+                                            [...Array(product.quantite_stock).keys()].map((x) =>(
+                                                <option key={x+1} value={x+1}>{x+1}</option>
+                                            ))
+                                            }
+                                        </Form.Control>
+                                    </Col>
+                                </Row>
+                            </ListGroup.Item>
+                        )}
+
                     <ListGroup.Item>
                         <div className="d-grid gap-2">
-                            <Button variant='dark' type='button'
+                            <Button
+                            onClick={addToCartHandler}
+                            variant='dark' type='button'
                             disabled={
                                 product.quantite_stock === 0
                             }
@@ -85,6 +107,8 @@ const ProductScreen = () => {
             </Card>
         </Col>
     </Row>
+    )}
+    
     </>
   )
 }
