@@ -24,7 +24,7 @@ const ProductsScreen = () => {
         : error ?( <Message variant='danger'>{error}</Message>)
         : (
             <Row>
-                {products.map((product)=>(
+                {products.map((product) => (
                     <Col key={product.codeArticle} sm={12} md={6} lg={4} xlg={3}>
                         <Product product={product}/>
                     </Col>

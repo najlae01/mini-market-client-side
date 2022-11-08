@@ -16,7 +16,7 @@ const Header = () => {
     <header>
     <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
       <Container>
-        <LinkContainer to="/">
+        <LinkContainer to="/home">
             <Navbar.Brand>MyShop</Navbar.Brand>
         </LinkContainer>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -27,7 +27,7 @@ const Header = () => {
             </LinkContainer>
             {userInfo ? (
               <NavDropdown title={userInfo.username} id='username'>
-                <LinkContainer to='profile'>
+                <LinkContainer to='/profile'>
                   <NavDropdown.Item>Profile</NavDropdown.Item>
                 </LinkContainer>
                 <NavDropdown.Item onClick={logoutHandler}>Logout</NavDropdown.Item>

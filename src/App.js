@@ -6,6 +6,7 @@ import Product from "./pages/Product/Product"
 import { useSelector} from "react-redux";
 import { Routes, Route, Navigate } from "react-router-dom";
 import Cart from "./pages/Cart/Cart";
+import Profile from "./pages/Profile/Profile";
 
 function App() {
   const user = useSelector((state) => state.authReducer.userInfo)
@@ -20,6 +21,8 @@ function App() {
         <Route path="/product/:id" element={user ? <Product /> : <Navigate to="../auth" />} />
 
         <Route path="/auth" element={user ? <Navigate to="../home" /> : <Auth />}  /> 
+
+        <Route path="/profile" element={user ? <Profile/> : <Navigate to="../auth" />}  /> 
 
         <Route path="/cart/:id" element={user ? <Cart /> : <Navigate to="../auth" />} />
         <Route path="/cart" element={user ? <Cart /> : <Navigate to="../auth" />} />
