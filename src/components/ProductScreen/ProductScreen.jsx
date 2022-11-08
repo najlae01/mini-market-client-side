@@ -31,7 +31,7 @@ const ProductScreen = () => {
     : (
         <Row>
         <Col md={6}>
-            <Image src={product.imageArticle} alt={product.nomArticle} fluid
+            <Image src={process.env.REACT_APP_PUBLIC_FOLDER+product.imageArticle} alt={product.nomArticle} fluid
             style={
                 {width: '30rem',
                 height: '30rem'}

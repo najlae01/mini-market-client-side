@@ -21,11 +21,11 @@ export const postReducer = (
     action
   ) => {
     switch (action.type) {
-      case "RETRIEVING_START":
+      case "RETRIEVING_LIST_START":
         return {...state, error: false, loading: true};
-      case "RETRIEVING_SUCCESS":
+      case "RETRIEVING_LIST_SUCCESS":
         return {...state, products: action.payload, loading: false, error: false};
-      case "RETRIEVING_FAIL":
+      case "RETRIEVING_LIST_FAIL":
         return {...state, loading: false, error: action.payload };
       default:
         return state;
@@ -33,7 +33,7 @@ export const postReducer = (
   };
 
   export const getArticleReducer = (
-    state = { product: null, loading: false, error: false},
+    state = { product: {}, loading: false, error: false},
     action
   ) => {
     switch (action.type) {
