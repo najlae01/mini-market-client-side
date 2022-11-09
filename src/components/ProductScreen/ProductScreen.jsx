@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from "react-redux";
 import {getArticle} from '../../actions/ArticleAction'
+import {addLigneCommande} from '../../actions/CartAction'
 import Loader from '../Loader/Loader'
 import Message from '../Message/Message'
 
@@ -19,15 +20,26 @@ const ProductScreen = () => {
         dispatch(getArticle(id))
       }, []);
 
+    
+
+    const submitHandler = (e) =>{
+        e.preventDefault();
+        const newLigneCommande = {
+            quantiteCommande: quantiy
+        }
+        dispatch(addLigneCommande(product.codeArticle, newLigneCommande))
+        
+    }
     const addToCartHandler = () => {
         navigate(`/cart/${id}?qty=${quantiy}`)
-    }
+      }
   return (
     <>
     <Link className='btn btn-light my-3' to='/home'>
         Go Back
     </Link>
     {loading ? <Loader/> : error ? <Message variant= 'danger'>{error}</Message>
+    
     : (
         <Row>
         <Col md={6}>
@@ -70,7 +82,7 @@ const ProductScreen = () => {
                             </Col>
                         </Row>
                     </ListGroup.Item>
-
+                    {/*<Form onSubmit={submitHandler}>*/}
                         {product.quantite_stock > 0 &&(
                             <ListGroup.Item>
                                 <Row>
@@ -93,16 +105,17 @@ const ProductScreen = () => {
                     <ListGroup.Item>
                         <div className="d-grid gap-2">
                             <Button
-                            onClick={addToCartHandler}
-                            variant='dark' type='button'
+                            type='button'
+                            variant='dark'
                             disabled={
                                 product.quantite_stock === 0
                             }
+                            onClick={addToCartHandler}
                             >
                                 Add To Cart
                             </Button>
                         </div>
-                    </ListGroup.Item>
+                    </ListGroup.Item>*
                 </ListGroup>
             </Card>
         </Col>

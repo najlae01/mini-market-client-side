@@ -7,6 +7,7 @@ import { useSelector} from "react-redux";
 import { Routes, Route, BrowserRouter, Navigate } from "react-router-dom";
 import Cart from "./pages/Cart/Cart";
 import Profile from "./pages/Profile/Profile";
+import Checkout from "./pages/Checkout/Checkout";
 
 function App() {
   const user = useSelector((state) => state.authReducer.userInfo)
@@ -25,6 +26,8 @@ function App() {
 
         <Route path="/cart/:id" element={user ? <Cart /> : <Navigate to="../auth" />} />
         <Route path="/cart" element={user ? <Cart /> : <Navigate to="../auth" />} />
+        
+        <Route path="/checkout" element={user ? <Checkout /> : <Navigate to="../auth" />} />
         {/*<Route path="/profile/:id" element = {user ? <Profile/> : <Navigate to = "../auth" />} />*/}
 
       </Routes>

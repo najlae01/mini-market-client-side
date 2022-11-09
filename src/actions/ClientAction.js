@@ -1,24 +1,27 @@
 import * as ClientApi from "../api/ClientRequest"
 
 export const addClient = (formData) => async(dispatch) => {
-    dispatch({type: "AUTH_START"})
+    dispatch({type: "AUTH_CLIENT_START"})
     try {
         const {data} = await ClientApi.addClient(formData)
-        dispatch({type: "AUTH_SUCCESS", data: data})
+        dispatch({type: "AUTH_CLIENT_SUCCESS", data: data})
     } catch (error) {
         console.log(error)
-        dispatch({type: "AUTH_FAIL"})
+        dispatch({type: "AUTH_CLIENT_FAIL",
+        payload: error.response && error.response.data.message ?
+        error.response.data.message : error.message
+    })
     }
 }
 
 export const updateClient = (id, formData) => async(dispatch) => {
-    dispatch({type: "UPDATING_START"})
+    dispatch({type: "UPDATE_CLIENT_START"})
     try {
         const {data} = await ClientApi.updateClient(id, formData);
-        dispatch({type: "UPDATING_SUCCESS", data: data})
+        dispatch({type: "UPDATE_CLIENT_SUCCESS", data: data})
     } catch (error) {
         console.log(error)
-        dispatch({type: "UPDATING_FAIL"})
+        dispatch({type: "UPDATE_CLIENT_FAIL"})
     }
 }
 
@@ -33,6 +36,13 @@ export const getAllClient = ()=> async(dispatch) =>{
     }
 }
 
-export const logout = () => async(dispatch) => {
-    dispatch({type: "LOG_OUT"})
+export const getClientByUserId = (userId) => async(dispatch) => {
+    dispatch({type: "GET_CLIENT_BY_USER_START"})
+    try {
+        const {data} = await ClientApi.getClientByUserId(userId);
+        dispatch({type: "GET_CLIENT_BY_USER_SUCCESS", payload: data})
+    } catch (error) {
+        console.log(error)
+        dispatch({type: "GET_CLIENT_BY_USER_FAIL"})
+    }
 }

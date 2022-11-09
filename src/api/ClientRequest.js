@@ -9,12 +9,14 @@ API.interceptors.request.use((req)=> {
     return req
 })
 
-export const addClient = (formData) => API.post('/addClient', formData)
+export const addClient = (formData) => API.post('/add/client', formData)
 
-export const getClient = (userId) => API.get(`/getClient/${userId}`)
+export const getClientByUserId = (userId) => API.get(`/get/client/user/${userId}`)
 
-export const updateClient = (id, formData) => API.put(`/updateClient/${id}`, formData)
+export const getClient = (userId) => API.get(`/get/client/${userId}`)
 
-export const deleteClient = (userId) => API.delete(`/deleteClient/${userId}`)
+export const updateClient = (id, formData) => API.put(`/update/client/${id}`, formData)
 
-export const getAllClient = () => API.get('/clients')
+export const deleteClient = (userId) => API.delete(`/delete/client/${userId}`)
+
+export const getAllClient = () => API.get('/get/clients')

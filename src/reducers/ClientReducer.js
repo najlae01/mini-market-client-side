@@ -1,30 +1,50 @@
-const clientReducer = (state = {
-    authData: null,
+export const clientReducer = (state = {
+    client: null,
     loading: false,
-    error: false,
-    updateLoading: true
+    error: false
 }, action) => {
         switch(action.type){
-            case "AUTH_START":
+            case "AUTH_CLIENT_START":
                 return {...state, loading: true, error: false};
-            case "AUTH_SUCCESS":
-                localStorage.setItem("profile", JSON.stringify({...action?.data}));
-                return {...state, authData: action.data, loading: false, error: false};
-            case "AUTH_FAIL":
-                return {...state, loading: false, error: true};
-            case "UPDATING_START":
-                return { ...state, updateLoading: true, error: false}
-            case "UPDATING_SUCCESS":
-                localStorage.setItem("profile", JSON.stringify({...action?.data}))
-                return { ...state, authData: action.data, updateLoading: false, error: false}
-            case "UPDATING_FAIL":
-                return { ...state, updateLoading: false, error: true}
-            case "LOG_OUT":
-                localStorage.clear();
-                return {...state, authData: null, loading: false, error: false}
+            case "AUTH_CLIENT_SUCCESS":
+                return {...state, client: action.payload, loading: false, error: false, success: true};
+            case "AUTH_CLIENT_FAIL":
+                return {...state, loading: false, error: action.payload};
             default:
                 return state;
         }
 }
 
-export default clientReducer
+export const updateClientReducer = (state = {
+    client: {},
+    loading: false,
+    error: false
+}, action) => {
+        switch(action.type){
+            case "UPDATE_CLIENT_START":
+                return {...state, loading: true, error: false};
+            case "UPDATE_CLIENT_SUCCESS":
+                return {...state, client: action.payload, loading: false, error: false, success: true};
+            case "UPDATE_CLIENT_FAIL":
+                return {...state, loading: false, error: action.payload};
+            default:
+                return state;
+        }
+}
+
+export const getClientByUserReducer = (state = {
+    client: {},
+    loading: false,
+    error: false
+}, action) => {
+        switch(action.type){
+            case "GET_CLIENT_BY_USER_START":
+                return {...state, loading: true, error: false};
+            case "GET_CLIENT_BY_USER_SUCCESS":
+                return {...state, client: action.payload, loading: false, error: false};
+            case "GET_CLIENT_BY_USER_FAIL":
+                return {...state, loading: false, error: action.payload};
+            default:
+                return state;
+        }
+}

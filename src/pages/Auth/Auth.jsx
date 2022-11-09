@@ -6,26 +6,35 @@ import {useDispatch, useSelector} from 'react-redux';
 import { logIn, signUp } from "../../actions/AuthAction";
 import Message from "../../components/Message/Message";
 import Loader from "../../components/Loader/Loader";
+import { useRef } from "react";
 
 const Auth = () => {
     const dispatch = useDispatch()
     const {error, loading} = useSelector((state)=>state.authReducer)
     const [isSignUp, setIsSignUp] = useState(true)
-    console.log(loading)
     const [data, setData] = useState({password:"", confirmpass: "", username:"", role:""})
-
+    
+    const checkboxid = useRef(null);
     const [message, setMessage] = useState(null)
+    //const [checked, setChecked] = useState(false)
 
     const handleChange = (e) => {
         setData({...data, [e.target.name]: e.target.value})
+        
     }
 
     const handleSubmit = (e) => {
         e.preventDefault();
         if(isSignUp){
+            var chk = checkboxid.current.value;
+            console.log(chk)
+            if (chk) {   
+                data.role = "isFournisseur"
+            }
             data.password === data.confirmpass 
             ? dispatch(signUp(data)) 
             : setMessage("Passwords do not match")
+            
         }else
         {
             dispatch(logIn(data))
@@ -77,16 +86,22 @@ const Auth = () => {
                 </div>
                 {isSignUp && 
                 <div>
-                <select name="role" id="role"
+                {/*<select name="role" id="role"
                  className="infoInput"
                  value={data.role}
                  onChange={handleChange}>
                  <option value= "Client">Buyer</option>
                  <option value= "Fournisseur">Vendor</option>
                  <option value= "Societe">Company</option>
-                 </select>
+                </select>*/}
+                    <label>Vendor ?</label>
+                    <label className="switch">
+                    <input type="checkbox" ref={checkboxid} />
+                    <span className="slider round"></span>
+                    </label>
                 </div>
                 }
+                
                 {message && <Message variant='danger'>{message}</Message>}
 
                 <div>
